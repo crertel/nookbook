@@ -26,6 +26,6 @@ defmodule NookBook.Data.Setup do
   end
 
   def schema_exists?() do
-    :mnesia.table_info(:schema, :disc_copeies) != []
+    :mnesia.table_info(:schema, :disc_copies) != []
   end
 end
