@@ -2,22 +2,24 @@ defmodule NookBookWeb.Router do
   use NookBookWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {NookBookWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {NookBookWeb.LayoutView, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", NookBookWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    live "/", PageLive, :index
+    live("/", NookBookLive, :index)
+    get("/icons/:namespace/:id", ImageController, :icon)
+    get("/images/:namespace/:id", ImageController, :image)
   end
 
   # Other scopes may use custom stacks.
@@ -36,8 +38,8 @@ defmodule NookBookWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: NookBookWeb.Telemetry
+      pipe_through(:browser)
+      live_dashboard("/dashboard", metrics: NookBookWeb.Telemetry)
     end
   end
 end
